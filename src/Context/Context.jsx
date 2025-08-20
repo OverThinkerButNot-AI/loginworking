@@ -41,11 +41,23 @@ const ContextProvider = ({ children }) => {
       );
       setisAuthenticated(true);
       toast.success(loginreq.data.message);
-      navigate("/")
+      navigate("/");
       console.log(loginreq);
     } catch (e) {
       toast.error(e.response.data.message);
       console.log(e);
+    }
+  };
+  const signUpp = async (userData) => {
+    try {
+      const signUPreq = await axios.post(
+        "http://localhost:8080/api/user/create2",
+        userData
+      );
+      navigate("/login")
+      toast.success(signUPreq.data.message);
+    } catch (e) {
+      toast.error(e.response.data.message);
     }
   };
   const logout = () => {
@@ -53,7 +65,7 @@ const ContextProvider = ({ children }) => {
     localStorage.removeItem("Authenticated");
   };
   return (
-    <Context.Provider value={{ isAuthenticated, login, logout }}>
+    <Context.Provider value={{ isAuthenticated, login, logout, signUpp }}>
       {children}
     </Context.Provider>
   );
